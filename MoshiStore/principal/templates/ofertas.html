@@ -1,0 +1,59 @@
+{% extends "navbar.html" %}
+
+{% load static %}
+{% block body %}
+
+<section class="productos">
+    <div class="categoria">
+        <button style="padding: 16px 28px;  margin: 10 5px; margin-top: 30px; font-size: 16px;border-radius: 6px; cursor: pointer; align-self: center;" onclick="filtrar('todos')">Todos</button >
+        <button style="padding: 16px 28px;  margin: 10 5px; margin-top: 30px; font-size: 16px;border-radius: 6px; cursor: pointer; align-self: center;" onclick="filtrar('Dulces')">Dulces</button>
+        <button style="padding: 16px 28px;  margin: 10 5px; margin-top: 30px; font-size: 16px;border-radius: 6px; cursor: pointer; align-self: center;" onclick="filtrar('Galletas')">Galletas</button>
+        <button style="padding: 16px 28px;  margin: 10 5px; margin-top: 30px; font-size: 16px;border-radius: 6px; cursor: pointer; align-self: center;" onclick="filtrar('Chicles')">Chicles</button>
+        <button style="padding: 16px 28px;  margin: 10 5px; margin-top: 30px; font-size: 16px;border-radius: 6px; cursor: pointer; align-self: center;" onclick="filtrar('Chocolates')">Chocolates</button>
+        <button style="padding: 16px 28px;  margin: 10 5px; margin-top: 30px; font-size: 16px;border-radius: 6px; cursor: pointer; align-self: center;" onclick="filtrar('Ramen')">Ramen</button>
+    </div>
+
+    <div class="contenedor">
+        {% for producto in productos %}
+            <div class="item" data-categoria="{{ producto.categoria }}">
+                <img src="{{ producto.imagen }}" class="moshi_img">
+                <h3>{{ producto.nombre }}</h3>
+                <p>{{ producto.descripcion }}</p>
+                <p class="precio">${{ producto.precio }}</p>
+                <button class="añadir-carrito" data-name="{{ producto.nombre }}" data-price="{{ producto.precio }}">Agregar al carrito!</button>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<div class="carrito">
+    <button class="carrito-boton" id="carrito-boton-id"><i class="fa-solid fa-cart-shopping"></i></button>
+    <div class="carrito-panel" id="carrito-panel-id">
+        <button class="carrito-cerrar" id="carrito-cerrar-id"><i class="fa-regular fa-circle-xmark"></i></button>
+        <h2>Carrito de Compras</h2>
+        <ul class="carrito-items"></ul>
+        <div class="carrito-total">Total: <span id="carrito-total-id">$0</span></div>
+    </div>
+</div>
+
+<script>
+    function filtrar(categoria) {
+        var items = document.getElementsByClassName('item');
+        if (categoria === 'todos') {
+            for (var i = 0; i < items.length; i++) {
+                items[i].style.display = 'block';
+            }
+        } else {
+            for (var i = 0; i < items.length; i++) {
+                var productoCategoria = items[i].getAttribute('data-categoria');
+                if (productoCategoria === categoria) {
+                    items[i].style.display = 'block';
+                } else {
+                    items[i].style.display = 'none';
+                }
+            }
+        }
+    }
+</script>
+
+{% endblock %}
